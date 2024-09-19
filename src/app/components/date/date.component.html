@@ -1,1 +1,25 @@
-<p>date works!</p>
+<div class="flex flex-col h-full">
+    <h2>BTC/USDT Candlestick Data for Today (1 Minute)</h2>
+    <div class="flex-1">
+        <table class="h-full overflow-y-scroll">
+            <thead>
+                <tr>
+                    <th>Open Time</th>
+                    <th>Open</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Close</th>
+                </tr>
+            </thead>
+            <tbody class="h-full overflow-y-scroll">
+                <tr *ngFor="let candle of candlestickData">
+                    <td>{{ candle.openTime }}</td>
+                    <td>{{ candle.open }}</td>
+                    <td>{{ candle.high }}</td>
+                    <td>{{ candle.low }}</td>
+                    <td>{{ candle.close }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -13,3 +13,4 @@ import { DateComponent } from "./components/date/date.component";
 export class AppComponent {
   title = 'binance';
 }
+
