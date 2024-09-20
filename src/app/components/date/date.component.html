@@ -1,25 +1,67 @@
-<div class="flex flex-col h-full">
-    <h2>BTC/USDT Candlestick Data for Today (1 Minute)</h2>
-    <div class="flex-1">
-        <table class="h-full overflow-y-scroll">
-            <thead>
-                <tr>
-                    <th>Open Time</th>
-                    <th>Open</th>
-                    <th>High</th>
-                    <th>Low</th>
-                    <th>Close</th>
-                </tr>
-            </thead>
-            <tbody class="h-full overflow-y-scroll">
-                <tr *ngFor="let candle of candlestickData">
-                    <td>{{ candle.openTime }}</td>
-                    <td>{{ candle.open }}</td>
-                    <td>{{ candle.high }}</td>
-                    <td>{{ candle.low }}</td>
-                    <td>{{ candle.close }}</td>
-                </tr>
-            </tbody>
-        </table>
+<div class="py-4 bg-[#191c27]">
+    <div class="grid grid-cols-3 px-4">
+        <div class="py-2">
+            <p class="text-sm text-gray-500">Price(USDT)</p>
+        </div>
+        <div class="py-2">
+            <p class="text-sm text-gray-500 text-right">Amout(BTC)</p>
+        </div>
+        <div class="py-2">
+            <p class="text-sm text-gray-500 text-right">Total</p>
+        </div>
+    </div>
+    <!-- bid.price * bid.quantity / getTotalBuy() *100 -->
+    <div class="relative" *ngFor="let bid of orderBookData.bidDepth">
+        <div [style.width]="(bid.price * bid.quantity / getMaxBuy() *100) + '%'"
+            class="absolute top-0 right-0  h-full bg-red-300/50 z-0">
+        </div>
+        <div class="grid grid-cols-3 z-50 relative px-4">
+            <div class="py-1">
+                <p class="text-xs text-red-600">{{bid.price}}</p>
+            </div>
+            <div class="py-1">
+                <p class="text-xs text-white text-right">{{bid.quantity}}</p>
+            </div>
+            <div class="py-1">
+                <p class="text-xs text-white text-right">{{bid.price * bid.quantity | numberFormatter}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="pt-2 ">
+        <p class="font-medium text-lg text-red-600">{{getTotalBuy()}}</p>
+    </div>
+</div>
+
+<div class="py-4 bg-[#191c27]">
+    <div class="grid grid-cols-3 px-4">
+        <div class="py-2">
+            <p class="text-sm text-gray-500">Price(USDT)</p>
+        </div>
+        <div class="py-2">
+            <p class="text-sm text-gray-500 text-right">Amout(BTC)</p>
+        </div>
+        <div class="py-2">
+            <p class="text-sm text-gray-500 text-right">Total</p>
+        </div>
+    </div>
+    <!-- bid.price * bid.quantity / getTotalBuy() *100 -->
+    <div class="relative" *ngFor="let ask of orderBookData.askDepth">
+        <div [style.width]="(ask.price * ask.quantity / geMaxSell() *100) + '%'"
+            class="absolute top-0 right-0  h-full bg-green-200/50 z-0">
+        </div>
+        <div class="grid grid-cols-3 z-50 relative px-4">
+            <div class="py-1">
+                <p class="text-xs text-green-600">{{ask.price }}</p>
+            </div>
+            <div class="py-1">
+                <p class="text-xs text-white text-right">{{ask.quantity}}</p>
+            </div>
+            <div class="py-1">
+                <p class="text-xs text-white text-right">{{ask.price * ask.quantity | numberFormatter }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="pt-2 ">
+        <p class="font-medium text-lg text-green-600">{{getTotalSell()}}</p>
     </div>
 </div>

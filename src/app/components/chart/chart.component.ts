@@ -14,6 +14,8 @@ declare global {
 
 export class TradingviewChartComponent implements AfterViewInit {
 
+  theme: string =  "dark"
+
   ngAfterViewInit(): void {
     this.loadTradingViewWidget();
   }
@@ -23,9 +25,9 @@ export class TradingviewChartComponent implements AfterViewInit {
       "width": '100%',
       "height": '100%',
       "symbol": "BINANCE:BTCUSDT", // Cặp giao dịch
-      "interval": "D", // Khoảng thời gian
+      "interval": "1", // Khoảng thời gian
       "timezone": "Etc/UTC",
-      "theme": "light",
+      "theme": this.theme,
       "style": "1",
       "locale": "en",
       "toolbar_bg": "#f1f3f6",
@@ -33,5 +35,10 @@ export class TradingviewChartComponent implements AfterViewInit {
       "allow_symbol_change": true,
       "container_id": "tradingview_chart"
     });
+  }
+
+  changetheme () {
+    this.theme  =  this.theme === 'light' ? 'dark' : 'light'
+    this.loadTradingViewWidget()
   }
 }

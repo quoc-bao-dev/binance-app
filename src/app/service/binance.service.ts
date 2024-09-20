@@ -33,4 +33,12 @@ export class BinanceService {
       endTime: currentTime // đến thời gian hiện tại
     });
   }
+
+  getOrderBook(symbol: string, limit: number = 100): Promise<any> {
+    return this.client.book({
+      symbol: symbol,
+      limit: limit  // Số lượng kết quả trả về (mặc định là 100)
+    });
+  }
+ 
 }

@@ -6,7 +6,7 @@ import { DateComponent } from "./components/date/date.component";
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TradingviewChartComponent, DateComponent],
+  imports: [RouterOutlet, TradingviewChartComponent, DateComponent ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
