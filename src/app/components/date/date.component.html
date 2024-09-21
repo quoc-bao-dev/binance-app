@@ -17,22 +17,42 @@
         </div>
         <div class="grid grid-cols-3 z-50 relative px-4">
             <div class="py-1">
-                <p class="text-xs text-red-600">{{bid.price}}</p>
+                <p class="text-xs text-red-600">{{bid.price | number:'3.2-2'}}</p>
             </div>
             <div class="py-1">
-                <p class="text-xs text-white text-right">{{bid.quantity}}</p>
+                <p class="text-xs text-white text-right">{{bid.quantity | number:'3.2-4'}}</p>
             </div>
             <div class="py-1">
                 <p class="text-xs text-white text-right">{{bid.price * bid.quantity | numberFormatter}}</p>
             </div>
         </div>
     </div>
-    <div class="pt-2 ">
-        <p class="font-medium text-lg text-red-600">{{getTotalBuy()}}</p>
+    <div class="pt-2 px-4 ">
+        <div class="flex gap-3">
+            <div class="flex gap-1 items-center">
+                <p class="font-medium text-lg" [ngClass]="isBigger ?   'text-green-600' : 'text-red-600'">{{
+                    currentPrice |
+                    number:'3.2-2' }}</p>
+
+                <div *ngIf="isBigger then arrowUp else arrowDown">
+
+                </div>
+                <ng-template #arrowUp>
+                    <i class="fa-solid fa-arrow-up text-green-600"></i>
+                </ng-template>
+                <ng-template #arrowDown>
+                    <i class="fa-solid fa-arrow-down text-red-600"></i>
+                </ng-template>
+
+
+            </div>
+
+            <p class="text-sm text-gray-500">${{ prePrice | number:'3.2-2'}}</p>
+        </div>
     </div>
 </div>
 
-<div class="py-4 bg-[#191c27]">
+<div class="pb-5 bg-[#191c27]">
     <div class="grid grid-cols-3 px-4">
         <div class="py-2">
             <p class="text-sm text-gray-500">Price(USDT)</p>
@@ -44,24 +64,20 @@
             <p class="text-sm text-gray-500 text-right">Total</p>
         </div>
     </div>
-    <!-- bid.price * bid.quantity / getTotalBuy() *100 -->
     <div class="relative" *ngFor="let ask of orderBookData.askDepth">
         <div [style.width]="(ask.price * ask.quantity / geMaxSell() *100) + '%'"
             class="absolute top-0 right-0  h-full bg-green-200/50 z-0">
         </div>
         <div class="grid grid-cols-3 z-50 relative px-4">
             <div class="py-1">
-                <p class="text-xs text-green-600">{{ask.price }}</p>
+                <p class="text-xs text-green-600">{{ask.price | number:'3.2-2'}}</p>
             </div>
             <div class="py-1">
-                <p class="text-xs text-white text-right">{{ask.quantity}}</p>
+                <p class="text-xs text-white text-right">{{ask.quantity | number:'3.2-4'}}</p>
             </div>
             <div class="py-1">
                 <p class="text-xs text-white text-right">{{ask.price * ask.quantity | numberFormatter }}</p>
             </div>
         </div>
-    </div>
-    <div class="pt-2 ">
-        <p class="font-medium text-lg text-green-600">{{getTotalSell()}}</p>
     </div>
 </div>

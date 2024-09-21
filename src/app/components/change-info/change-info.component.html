@@ -1,0 +1,36 @@
+<div class="px-4 py-2 flex gap-4 bg-[#181a20]">
+    <h2 class="font-medium text-xl text-white">
+        BTC/USDT
+    </h2>
+    <div>
+        <p class="font-medium text-lg" [ngClass]="isBigger ?   'text-green-600' : 'text-red-600'">{{ currentPrice |
+            number:'3.2-2' }}</p>
+        <p class="text-sm text-gray-500">{{ prePrice | number:'3.2-2' }}</p>
+    </div>
+    <div class="">
+        <p class="text-gray-500 text-sm">24h Change</p>
+        <p class="text-sm" [ngClass]="changePercent >= 0 ? 'text-green-600' : 'text-red-600'">{{changePercent
+            | percent:'1.1-3' }}</p>
+
+    </div>
+    <div class="">
+        <p class="text-gray-500 text-sm">24h High</p>
+        <p class="text-sm text-white">{{ highPrice
+            | number:'3.2-2' }}</p>
+
+    </div>
+
+    <div class="">
+        <p class="text-gray-500 text-sm">24h Low</p>
+        <p class="text-sm text-white">{{lowPrice
+            | number:'3.2-2' }}</p>
+
+    </div>
+
+    <div class="">
+        <p class="text-gray-500 text-sm">Volume</p>
+        <p class="text-sm text-white">{{volume
+            | number:'3.2-2' }}</p>
+
+    </div>
+</div>

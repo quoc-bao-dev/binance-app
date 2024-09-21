@@ -9,9 +9,10 @@ export class BinanceSocketService {
   
   private client = Binance()
   private depthDataSubject = new Subject<any>()
+  private priceSubject = new Subject<any>();
 
   depthData$ = this.depthDataSubject.asObservable()
-
+  public price$ = this.priceSubject.asObservable();
   constructor() { 
   }
 
@@ -19,5 +20,11 @@ export class BinanceSocketService {
     this.client.ws.depth(symbol, (depth) => {
       this.depthDataSubject.next(depth)
     })
+  }
+
+  connectToPriceStream(symbol: string) {
+    this.client.ws.ticker(symbol, (ticker) => {
+      this.priceSubject.next(ticker); 
+    });
   }
 }

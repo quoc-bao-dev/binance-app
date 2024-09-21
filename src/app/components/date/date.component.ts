@@ -1,41 +1,75 @@
 import { Component, OnInit } from '@angular/core';
 import { BinanceService } from '../../service/binance.service';
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { BinanceSocketService } from '../../service/binance-socket.service';
 import { NumberFormatterPipe } from '../../pipes/number-formatter.pipe';
+import { Title } from '@angular/platform-browser';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-date',
   standalone: true,
-  imports: [NgFor, NumberFormatterPipe],
+  imports: [NgFor, NumberFormatterPipe,DecimalPipe, NgClass, NgIf],
   templateUrl: './date.component.html',
-  styleUrl: './date.component.css'
+  styleUrl: './date.component.css',
+  providers: [DecimalPipe]
 })
 export class DateComponent implements OnInit {
   orderBookData: any = {};
-  private orderBookSubData : any
-
-  constructor(private binanceService: BinanceSocketService) {}
+  currentPriceData: any
+  
+  prePrice = 0
+  currentPrice = 0
+  isBigger : boolean = true
+  private temp: any[] = []
+  constructor(private binanceService: BinanceSocketService, private titleService: Title, private decimalPipe: DecimalPipe) {}
 
   async ngOnInit(): Promise<void> {
     // Lấy dữ liệu order book cho BTCUSDT
     try {
 
       this.binanceService.connectToDepthStream('BTCUSDT')
+      this.binanceService.connectToPriceStream('BTCUSDT');
 
-      this.orderBookSubData = this.binanceService.depthData$.subscribe((data) => {
+      this.binanceService.depthData$.subscribe((data) => {
         this.orderBookData = data
-        console.log(data);
 
         this.orderBookData.bidDepth.length=20
         this.orderBookData.askDepth.length=20
         
       })
 
+       this.binanceService.price$.subscribe((priceData) => {
+        this.currentPriceData = priceData;
+        
+        const title = `${this.decimalPipe.transform(this.currentPrice)} | BTCUSDT`
+        this.setTitle(title)
+        
+        console.log(priceData);
+        
+      
+        this.currentPrice = this.currentPriceData.curDayClose
+        this.temp.push(this.currentPrice)
+        if (this.temp.length >= 2) {
+          this.prePrice =  this.temp.shift()
+          
+        }
+
+        this.currentPrice
+
+        this.isBigger = Number(this.currentPrice) >= Number(this.prePrice)
+        
+      });
+
+
       
     } catch (error) {
       console.log(error);
     }
+  }
+
+  setTitle (title: string) {
+    this.titleService.setTitle(title)
   }
 
   getTotalBuy() : number{
